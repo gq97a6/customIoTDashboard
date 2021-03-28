@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.app.MainActivity">
+
+    <TextView
+        android:id="@+id/output"
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:gravity="bottom"
+        android:background="#E6E6E6"
+        android:text="null"
+        android:textColor="@color/black"
+        android:maxLines="10"
+        android:textSize="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/a"
+            android:onClick="go"
+            android:text="FAN ON" />
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/b"
+            android:onClick="go"
+            android:text="LIGHT ON"/>
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/c"
+            android:onClick="go"
+            android:text="LIGHT BED ON"/>
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/d"
+            android:onClick="go"
+            android:text="LIGTH DESK ON"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/button_normal"
+            android:text="FAN OFF"/>
+
+        <Button
+            style="@style/button_normal"
+            android:text="LIGHT OFF"/>
+
+        <Button
+            style="@style/button_normal"
+            android:text="LIGHT BED OFF"/>
+
+        <Button
+            style="@style/button_normal"
+            android:background="#FFFFFF"
+            android:text="LIGTH DESK OFF" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/bind"
+            android:text="BIND" />
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/get"
+            android:text="GET" />
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/start"
+            android:text="START" />
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/stop"
+            android:text="STOP" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/button_normal"
+            android:id="@+id/go"
+            android:text="GO" />
+        <Button style="@style/button_normal" />
+        <Button style="@style/button_normal" />
+        <Button style="@style/button_normal" />
+    </LinearLayout>
+</LinearLayout>
