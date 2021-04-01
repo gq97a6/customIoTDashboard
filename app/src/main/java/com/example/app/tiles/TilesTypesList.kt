@@ -1,50 +1,11 @@
 package com.example.app.tiles
 
-import com.example.app.R
+import ButtonTile
+import SliderTile
 
 fun tilesTypesList(): List<Tile> {
     return listOf(
-        Tile(
-            id = 0,
-            name = "test",
-            sizeX = 1,
-            sizeY = 1,
-            layout = R.layout.slider_tile
-        ),
-        Tile(
-            id = 0,
-            name = "test",
-            sizeX = 1,
-            sizeY = 1,
-            layout = R.layout.slider_tile
-        ),
-        Tile(
-            id = 0,
-            name = "test",
-            sizeX = 1,
-            sizeY = 1,
-            layout = R.layout.slider_tile
-        ),
-        Tile(
-            id = 0,
-            name = "test",
-            sizeX = 1,
-            sizeY = 1,
-            layout = R.layout.slider_tile
-        ),
-        Tile(
-            id = 0,
-            name = "test",
-            sizeX = 1,
-            sizeY = 1,
-            layout = R.layout.slider_tile
-        ),
-        Tile(
-            id = 0,
-            name = "test",
-            sizeX = 1,
-            sizeY = 1,
-            layout = R.layout.slider_tile
-        )
+        ButtonTile(0, "", 1, 1),
+        SliderTile(1, "", 1, 1)
     )
 }

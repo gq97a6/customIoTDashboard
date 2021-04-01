@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.example.app"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -40,7 +40,9 @@ android {
         main {
             res {
                 srcDirs 'src\\main\\res',
-                        'src\\main\\res\\tiles'}
+                        'src\\main\\res\\tiles',
+                        'src\\main\\java\\com\\example\\app\\tiles\\test',
+                        file('src\\main\\java\\com\\example\\app\\tiles\\tiles').listFiles()}
         }
     }
 }

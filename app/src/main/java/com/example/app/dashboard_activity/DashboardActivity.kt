@@ -7,9 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.example.app.MainActivity
-import com.example.app.R
 import com.example.app.databinding.DashboardActivityBinding
 
 class DashboardActivity : AppCompatActivity() {
@@ -25,11 +23,9 @@ class DashboardActivity : AppCompatActivity() {
         b = DashboardActivityBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        val dashboardAdapter = DashboardAdapter {
-            tile -> adapterOnClick(tile)
-        }
+        val dashboardAdapter = DashboardAdapter(this)
 
-        val recyclerView: RecyclerView = b.recyclerView
+        val recyclerView = b.recyclerView
         recyclerView.adapter = dashboardAdapter
 
         tilesListViewModel.tilesLiveData.observe(this, {
