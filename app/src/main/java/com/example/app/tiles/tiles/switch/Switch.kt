@@ -4,8 +4,8 @@ import com.example.app.dashboard_activity.DashboardAdapter
 import com.example.app.getScreenWidth
 import com.example.app.tiles.Tile
 
-class SliderTile(id: Long, name: String, val x: Int, val y: Int):
-        Tile(id, name, R.layout.slider_tile) {
+class SwitchTile(id: Long, name: String, val x: Int, val y: Int):
+        Tile(id, name, R.layout.switch_tile) {
 
     override fun onBindViewHolder(holder: DashboardAdapter.TileViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)

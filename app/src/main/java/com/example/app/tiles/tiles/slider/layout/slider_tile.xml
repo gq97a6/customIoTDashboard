@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="vertical"
-    android:gravity="center_horizontal" >
+    android:layout_height="100dp"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:padding="@dimen/tile_padding"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
+    <ImageView
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="Sample value"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"
-        android:gravity="center_horizontal" />
+        android:background="#506EFB"/>
 
     <com.google.android.material.slider.Slider
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#506EFB"
+        android:stepSize="10.0"
         android:valueFrom="0.0"
         android:valueTo="100.0"
-        android:stepSize="10.0" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="33dp" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

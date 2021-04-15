@@ -6,7 +6,23 @@ import androidx.lifecycle.MutableLiveData
 
 // Handles operations on tileLiveData and holds details about it.
 class TilesSource(resources: Resources) {
-    private val initialTileList = listOf(tilesTypesList()[0], tilesTypesList()[1], tilesTypesList()[1] , tilesTypesList()[0])
+    private val initialTileList = listOf(
+        tilesTypesList()[1],
+        tilesTypesList()[0],
+        tilesTypesList()[1],
+        tilesTypesList()[1],
+        tilesTypesList()[1],
+        tilesTypesList()[0],
+        tilesTypesList()[1],
+        tilesTypesList()[0],
+        tilesTypesList()[1],
+        tilesTypesList()[0],
+        tilesTypesList()[0],
+        tilesTypesList()[0],
+        tilesTypesList()[0],
+        tilesTypesList()[0],
+        tilesTypesList()[0])
+
     private val tileLiveData = MutableLiveData(initialTileList)
 
     fun addTile(tile: Tile) {
@@ -27,13 +43,6 @@ class TilesSource(resources: Resources) {
             updatedList.remove(tile)
             tileLiveData.postValue(updatedList)
         }
-    }
-
-    fun getTileById(id: Long): Tile? {
-        tileLiveData.value?.let { tiles ->
-            return tiles.firstOrNull{ it.id == id}
-        }
-        return null
     }
 
     fun getTileList(): LiveData<List<Tile>> {

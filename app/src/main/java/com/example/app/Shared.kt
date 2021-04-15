@@ -1,10 +1,10 @@
 package com.example.app
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
 
 fun createToast(context: Context, msg: String) {
     if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -12,4 +12,8 @@ fun createToast(context: Context, msg: String) {
     } else {
         Handler(Looper.getMainLooper()).post { Toast.makeText(context, msg, Toast.LENGTH_SHORT).show() }
     }
+}
+
+fun getScreenWidth(): Int {
+    return Resources.getSystem().displayMetrics.widthPixels
 }

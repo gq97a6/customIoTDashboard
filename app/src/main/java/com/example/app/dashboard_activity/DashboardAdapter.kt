@@ -1,22 +1,28 @@
 package com.example.app.dashboard_activity
 
 import android.content.Context
-import android.util.Log
 import com.example.app.tiles.Tile
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
-class DashboardAdapter(val context: Context): ListAdapter<Tile, DashboardAdapter.TileViewHolder>(TileDiffCallback) {
+class DashboardAdapter(val context: Context, private val spanCount: Int): ListAdapter<Tile, DashboardAdapter.TileViewHolder>(TileDiffCallback) {
 
+    lateinit var tiles: MutableList<Tile>
     lateinit var currentTile: Tile
 
+    override fun submitList(list: MutableList<Tile>?) {
+        super.submitList(list)
+
+        tiles = list!!
+    }
+
     override fun getItemViewType(position: Int): Int {
-        currentTile = getItem(position)
-        return currentTile.getItemViewType(context) //Tile function
+        currentTile = tiles[position]
+        return currentTile.getItemViewType(context, spanCount) //Tile function
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TileViewHolder {
