@@ -1,13 +1,13 @@
-package com.example.app
+package com.netDashboard
 
 import android.content.*
 import android.os.*
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.app.dashboard_activity.DashboardActivity
+import com.netDashboard.dashboard_activity.DashboardActivity
 import com.example.app.databinding.MainActivityBinding
-import com.example.app.main.Abyss
+import com.netDashboard.abyss.Abyss
 
 
 class MainActivity : AppCompatActivity() {

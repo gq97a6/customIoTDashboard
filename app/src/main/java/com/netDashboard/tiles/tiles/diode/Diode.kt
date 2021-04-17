@@ -1,7 +1,9 @@
-import com.example.app.R
-import com.example.app.createToast
-import com.example.app.dashboard_activity.DashboardAdapter
-import com.example.app.tiles.Tile
+package com.netDashboard.tiles.tiles.diode
+
+import com.netDashboard.R
+import com.netDashboard.createToast
+import com.netDashboard.dashboard_activity.DashboardAdapter
+import com.netDashboard.tiles.Tile
 
 class DiodeTile(id: Long, name: String, val x: Int, val y: Int):
         Tile(id, name, R.layout.diode_tile) {

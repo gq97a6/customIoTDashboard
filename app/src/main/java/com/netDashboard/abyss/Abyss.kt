@@ -1,4 +1,4 @@
-package com.example.app.main
+package com.netDashboard.abyss
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,8 +12,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.PRIORITY_MIN
 import androidx.core.app.NotificationCompat.VISIBILITY_SECRET
 import androidx.core.app.NotificationManagerCompat
-import com.example.app.R
-import com.example.app.createToast
+import com.netDashboard.R
+import com.netDashboard.createToast
 import java.net.BindException
 import java.net.DatagramPacket
 import java.net.DatagramSocket

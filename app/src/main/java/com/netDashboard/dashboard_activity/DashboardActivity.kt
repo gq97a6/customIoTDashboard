@@ -1,12 +1,12 @@
-package com.example.app.dashboard_activity
+package com.netDashboard.dashboard_activity
 
 import android.os.Bundle
-import com.example.app.tiles.Tile
+import android.view.MotionEvent
+import com.netDashboard.tiles.Tile
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.app.databinding.DashboardActivityBinding
-import com.example.app.tiles.tilesTypesList
+import com.netDashboard.databinding.DashboardActivityBinding
 import java.util.*
 
 class DashboardActivity : AppCompatActivity() {
@@ -17,6 +17,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         b = DashboardActivityBinding.inflate(layoutInflater)
@@ -27,7 +28,16 @@ class DashboardActivity : AppCompatActivity() {
 
         val recyclerView = b.recyclerView
         recyclerView.adapter = dashboardAdapter
-        recyclerView.layoutManager = GridLayoutManager(this, spanCount)
+
+        //val layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManager = GridLayoutManager(this, spanCount)
+        layoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return dashboardAdapter.tiles[position].span
+            }
+        }
+
+        recyclerView.layoutManager = layoutManager
 
         tilesListViewModel.tilesLiveData.observe(this, {
             it?.let {
@@ -35,15 +45,14 @@ class DashboardActivity : AppCompatActivity() {
             }
         })
 
-        b.ban.setOnLongClickListener {
-            Collections.swap(dashboardAdapter.tiles, 0, 1)
-            dashboardAdapter.notifyItemMoved(0, 1)
-
-            dashboardAdapter.tiles[2] = tilesTypesList()[0]
-            dashboardAdapter.notifyItemChanged(2)
-
-            return@setOnLongClickListener true
+        b.ban.setOnClickListener {
+            Collections.swap(dashboardAdapter.tiles, 0, 6)
+            dashboardAdapter.notifyItemMoved(0, 6)
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return super.onTouchEvent(event)
     }
 
     //private fun go(view: View) {

@@ -1,5 +1,8 @@
-package com.example.app.tiles
+package com.netDashboard.tiles
 
+import com.netDashboard.tiles.tiles.button.ButtonTile
+import com.netDashboard.tiles.tiles.longButton.LongButtonTile
+import com.netDashboard.tiles.tiles.slider.SliderTile
 import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,21 +10,30 @@ import androidx.lifecycle.MutableLiveData
 // Handles operations on tileLiveData and holds details about it.
 class TilesSource(resources: Resources) {
     private val initialTileList = listOf(
-        tilesTypesList()[1],
-        tilesTypesList()[0],
-        tilesTypesList()[1],
-        tilesTypesList()[1],
-        tilesTypesList()[1],
-        tilesTypesList()[0],
-        tilesTypesList()[1],
-        tilesTypesList()[0],
-        tilesTypesList()[1],
-        tilesTypesList()[0],
-        tilesTypesList()[0],
-        tilesTypesList()[0],
-        tilesTypesList()[0],
-        tilesTypesList()[0],
-        tilesTypesList()[0])
+        ButtonTile(0, "", 1, 1),
+        SliderTile(1, "", 1, 1),
+        ButtonTile(0, "", 1, 1),
+        ButtonTile(0, "", 1, 1),
+        LongButtonTile(1, "", 1, 1),
+        LongButtonTile(1, "", 1, 1),
+        SliderTile(1, "", 1, 1),
+        LongButtonTile(1, "", 1, 1),
+        SliderTile(1, "", 1, 1),
+        ButtonTile(0, "", 1, 1),
+        SliderTile(1, "", 1, 1),
+        ButtonTile(0, "", 1, 1),
+        SliderTile(1, "", 1, 1),
+        LongButtonTile(1, "", 1, 1),
+        ButtonTile(0, "", 1, 1),
+        ButtonTile(0, "", 1, 1),
+        SliderTile(1, "", 1, 1),
+        ButtonTile(0, "", 1, 1),
+        LongButtonTile(1, "", 1, 1),
+        SliderTile(1, "", 1, 1),
+        LongButtonTile(1, "", 1, 1),
+        LongButtonTile(1, "", 1, 1),
+        LongButtonTile(1, "", 1, 1)
+    )
 
     private val tileLiveData = MutableLiveData(initialTileList)
 

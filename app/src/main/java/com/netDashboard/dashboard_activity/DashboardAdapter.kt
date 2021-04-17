@@ -1,15 +1,16 @@
-package com.example.app.dashboard_activity
+package com.netDashboard.dashboard_activity
 
 import android.content.Context
-import com.example.app.tiles.Tile
+import com.netDashboard.tiles.Tile
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
-class DashboardAdapter(val context: Context, private val spanCount: Int): ListAdapter<Tile, DashboardAdapter.TileViewHolder>(TileDiffCallback) {
+class DashboardAdapter(val context: Context, private val spanCount: Int): ListAdapter<Tile, DashboardAdapter.TileViewHolder>(
+    TileDiffCallback
+) {
 
     lateinit var tiles: MutableList<Tile>
     lateinit var currentTile: Tile

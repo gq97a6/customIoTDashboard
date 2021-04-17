@@ -1,4 +1,4 @@
-package com.example.app
+package com.netDashboard
 
 import android.content.Context
 import android.content.res.Resources

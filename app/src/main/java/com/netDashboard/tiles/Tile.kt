@@ -1,26 +1,24 @@
-package com.example.app.tiles
+package com.netDashboard.tiles
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.example.app.R
-import com.example.app.dashboard_activity.DashboardAdapter
-import com.example.app.getScreenWidth
+import com.netDashboard.dashboard_activity.DashboardAdapter
+import com.netDashboard.getScreenWidth
+
 
 abstract class Tile(
-        private val id: Long,
-        val name: String,
-        private val layout: Int) {
+    private val id: Long,
+    val name: String,
+    private val layout: Int,
+    val span: Int = 1
+) {
 
     lateinit var context: Context
     var spanCount: Int = 2
 
     open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardAdapter.TileViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(viewType, parent, false)
-
+        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return DashboardAdapter.TileViewHolder(view)
     }
 
@@ -29,6 +27,7 @@ abstract class Tile(
         val params = view.layoutParams
 
         params.height = (getScreenWidth() - view.paddingLeft * 2) / spanCount
+        //params.width = params.height * 2
         view.layoutParams = params
     }
 
