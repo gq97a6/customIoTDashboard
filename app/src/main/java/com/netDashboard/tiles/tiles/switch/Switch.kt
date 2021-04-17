@@ -5,8 +5,8 @@ import com.netDashboard.createToast
 import com.netDashboard.dashboard_activity.DashboardAdapter
 import com.netDashboard.tiles.Tile
 
-class SwitchTile(id: Long, name: String, val x: Int, val y: Int):
-        Tile(id, name, R.layout.switch_tile) {
+class SwitchTile(id: Long, name: String,  x: Int, y: Int):
+        Tile(id, name, R.layout.switch_tile, x, y) {
 
     override fun onBindViewHolder(holder: DashboardAdapter.TileViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)

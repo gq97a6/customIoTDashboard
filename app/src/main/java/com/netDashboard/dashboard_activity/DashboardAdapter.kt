@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 class DashboardAdapter(val context: Context, private val spanCount: Int): ListAdapter<Tile, DashboardAdapter.TileViewHolder>(
     TileDiffCallback
@@ -35,6 +36,15 @@ class DashboardAdapter(val context: Context, private val spanCount: Int): ListAd
 
     override fun onBindViewHolder(holder: TileViewHolder, position: Int) {
         currentTile.onBindViewHolder(holder, position) //Tile function
+
+        holder.itemView.setOnClickListener {
+            tiles.forEachIndexed { i: Int, t: Tile ->
+                if(t.swapFlag && currentTile.swapFlag && t.id != currentTile.id) {
+                    Collections.swap(tiles, position, i)
+                    notifyItemMoved(position, i)
+                }
+            }
+        }
     }
 }
 

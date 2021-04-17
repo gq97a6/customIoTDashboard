@@ -3,10 +3,11 @@ package com.netDashboard.tiles.tiles.button
 import com.netDashboard.R
 import com.netDashboard.createToast
 import com.netDashboard.dashboard_activity.DashboardAdapter
+import com.netDashboard.getScreenWidth
 import com.netDashboard.tiles.Tile
 
-class ButtonTile(id: Long, name: String, val x: Int, val y: Int):
-        Tile(id, name, R.layout.button_tile) {
+class ButtonTile(id: Long, name: String, x: Int, y: Int):
+        Tile(id, name, R.layout.button_tile, x, y) {
 
     override fun onBindViewHolder(holder: DashboardAdapter.TileViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)

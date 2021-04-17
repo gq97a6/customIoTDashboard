@@ -2,23 +2,32 @@ package com.netDashboard.tiles
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import com.netDashboard.dashboard_activity.DashboardAdapter
 import com.netDashboard.getScreenWidth
 
 
 abstract class Tile(
-    private val id: Long,
-    val name: String,
-    private val layout: Int,
-    val span: Int = 1
-) {
+        val id: Long,
+        var name: String,
+        private var layout: Int,
+        var x: Int,
+        private var y: Int) {
 
+    var swapFlag = false
+    var spanCount = 2
     lateinit var context: Context
-    var spanCount: Int = 2
 
     open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardAdapter.TileViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+
+        view.setOnClickListener {
+            onClick()
+        }
+
         return DashboardAdapter.TileViewHolder(view)
     }
 
@@ -26,8 +35,7 @@ abstract class Tile(
         val view = holder.itemView
         val params = view.layoutParams
 
-        params.height = (getScreenWidth() - view.paddingLeft * 2) / spanCount
-        //params.width = params.height * 2
+        params.height = ((getScreenWidth() - view.paddingLeft * 2) / spanCount) * y
         view.layoutParams = params
     }
 
@@ -44,5 +52,9 @@ abstract class Tile(
 
     fun areContentsTheSame(oldItem: Tile, newItem: Tile): Boolean {
         return oldItem.id == newItem.id
+    }
+
+    open fun onClick() {
+
     }
 }
