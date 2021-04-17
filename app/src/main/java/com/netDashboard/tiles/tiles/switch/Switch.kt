@@ -1,6 +1,6 @@
 package com.netDashboard.tiles.tiles.switch
 
-import com.example.app.R
+import com.netDashboard.R
 import com.netDashboard.createToast
 import com.netDashboard.dashboard_activity.DashboardAdapter
 import com.netDashboard.tiles.Tile

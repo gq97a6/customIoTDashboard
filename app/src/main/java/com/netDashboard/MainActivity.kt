@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.netDashboard.dashboard_activity.DashboardActivity
-import com.example.app.databinding.MainActivityBinding
+import com.netDashboard.databinding.MainActivityBinding
 import com.netDashboard.abyss.Abyss
 
 

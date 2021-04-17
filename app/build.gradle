@@ -8,7 +8,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.app"
+        applicationId "com.netDashboard"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
@@ -41,8 +41,8 @@ android {
             res {
                 srcDirs 'src\\main\\res',
                         'src\\main\\res\\tiles',
-                        'src\\main\\java\\com\\example\\app\\tiles\\test',
-                        file('src\\main\\java\\com\\example\\app\\tiles\\tiles').listFiles()}
+                        'src\\main\\java\\com\\netDashboard\\tiles\\test',
+                        file('src\\main\\java\\com\\netDashboard\\tiles\\tiles').listFiles()}
         }
     }
 }
