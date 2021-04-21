@@ -17,4 +17,5 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="dashboard">DASHBOARD</string>
+    <string name="swap_mode">SWAP MODE</string>
 </resources>

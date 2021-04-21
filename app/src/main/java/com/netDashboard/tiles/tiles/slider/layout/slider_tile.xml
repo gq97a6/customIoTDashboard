@@ -10,19 +10,27 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/test2"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="#506EFB"/>
+        android:background="#348DBD" />
 
     <com.google.android.material.slider.Slider
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#506EFB"
         android:stepSize="10.0"
+        android:value="20"
         android:valueFrom="0.0"
         android:valueTo="100.0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="33dp" />
+        tools:layout_editor_absoluteX="33dp"
+
+        app:tickColorActive="#1E6388"
+        app:trackColorActive="#32B3F8"
+        app:tickColorInactive="#357293"
+        app:trackColorInactive="#8CD2F8"
+        app:thumbColor="#5CBEF3"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,6 @@
 package com.netDashboard.tiles
 
 import com.netDashboard.tiles.tiles.button.ButtonTile
-import com.netDashboard.tiles.tiles.longButton.LongButtonTile
 import com.netDashboard.tiles.tiles.slider.SliderTile
 import android.content.res.Resources
 import androidx.lifecycle.LiveData
@@ -13,28 +12,28 @@ import kotlin.random.Random.Default.nextInt
 class TilesSource(resources: Resources) {
     private val initialTileList = listOf(
         ButtonTile(Random().nextLong(), "", 1, 1),
+        SliderTile(Random().nextLong(), "", 3, 1),
+        ButtonTile(Random().nextLong(), "", 1, 1),
+        ButtonTile(Random().nextLong(), "", 1, 1),
+        ButtonTile(Random().nextLong(), "", 3, 1),
+        ButtonTile(Random().nextLong(), "", 1, 1),
+        SliderTile(Random().nextLong(), "", 2, 1),
+        ButtonTile(Random().nextLong(), "", 2, 1),
+        SliderTile(Random().nextLong(), "", 1, 1),
+        ButtonTile(Random().nextLong(), "", 1, 1),
+        SliderTile(Random().nextLong(), "", 1, 1),
+        ButtonTile(Random().nextLong(), "", 3, 1),
+        SliderTile(Random().nextLong(), "", 1, 1),
+        ButtonTile(Random().nextLong(), "", 1, 1),
+        ButtonTile(Random().nextLong(), "", 1, 1),
+        ButtonTile(Random().nextLong(), "", 1, 1),
         SliderTile(Random().nextLong(), "", 2, 1),
         ButtonTile(Random().nextLong(), "", 1, 1),
         ButtonTile(Random().nextLong(), "", 1, 1),
-        LongButtonTile(Random().nextLong(), "", 3, 3),
-        LongButtonTile(Random().nextLong(), "", 1, 1),
-        SliderTile(Random().nextLong(), "", 2, 1),
-        LongButtonTile(Random().nextLong(), "", 2, 1),
         SliderTile(Random().nextLong(), "", 1, 1),
         ButtonTile(Random().nextLong(), "", 1, 1),
-        SliderTile(Random().nextLong(), "", 1, 1),
         ButtonTile(Random().nextLong(), "", 1, 1),
-        SliderTile(Random().nextLong(), "", 1, 1),
-        LongButtonTile(Random().nextLong(), "", 1, 1),
-        ButtonTile(Random().nextLong(), "", 1, 1),
-        ButtonTile(Random().nextLong(), "", 1, 1),
-        SliderTile(Random().nextLong(), "", 1, 1),
-        ButtonTile(Random().nextLong(), "", 1, 1),
-        LongButtonTile(Random().nextLong(), "", 1, 1),
-        SliderTile(Random().nextLong(), "", 1, 1),
-        LongButtonTile(Random().nextLong(), "", 1, 1),
-        LongButtonTile(Random().nextLong(), "", 1, 1),
-        LongButtonTile(Random().nextLong(), "", 1, 1)
+        ButtonTile(Random().nextLong(), "", 1, 1)
     )
 
     private val tileLiveData = MutableLiveData(initialTileList)

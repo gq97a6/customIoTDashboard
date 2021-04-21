@@ -16,40 +16,40 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        b = MainActivityBinding.inflate(layoutInflater)
-        setContentView(b.root)
-
-        b.bind.setOnClickListener() {
-            abyss.bind()
-        }
-
-        b.get.setOnClickListener() {
-            if (abyss.isBounded) {
-                val data:String = abyss.service.udpd.getData()
-                Toast.makeText(this, "number: $data", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        b.start.setOnClickListener() {
-            abyss.start()
-        }
-
-        b.stop.setOnClickListener() {
-            abyss.stop()
-        }
-
-        b.go.setOnClickListener() {
-            Intent(this, DashboardActivity::class.java).also {
-                startActivity(it)
-            }
-            finish()
-        }
-
-        Intent(this, DashboardActivity::class.java).also {
-            startActivity(it)
-        }
-        finish()
+//
+        //b = MainActivityBinding.inflate(layoutInflater)
+        //setContentView(b.root)
+//
+        //b.bind.setOnClickListener() {
+        //    abyss.bind()
+        //}
+//
+        //b.get.setOnClickListener() {
+        //    if (abyss.isBounded) {
+        //        val data:String = abyss.service.udpd.getData()
+        //        Toast.makeText(this, "number: $data", Toast.LENGTH_SHORT).show()
+        //    }
+        //}
+//
+        //b.start.setOnClickListener() {
+        //    abyss.start()
+        //}
+//
+        //b.stop.setOnClickListener() {
+        //    abyss.stop()
+        //}
+//
+        //b.go.setOnClickListener() {
+        //    Intent(this, DashboardActivity::class.java).also {
+        //        startActivity(it)
+        //    }
+        //    finish()
+        //}
+//
+        //Intent(this, DashboardActivity::class.java).also {
+        //    startActivity(it)
+        //}
+        //finish()
     }
 
     override fun onStart() {
@@ -118,22 +118,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getContext():Context {
+    fun getContext(): Context {
         return this
-    }
-
-    private fun display(text: String, mode: Int = 0) = when(mode) {
-        0 -> {
-            val output = text.trim() + "\n"
-            b.output.text = output
-        }
-
-        1 -> {
-            val output = "${b.output.text} + ${text.trim()}" + "\n"
-            b.output.text = output
-        }
-
-        else -> {
-    }
     }
 }
