@@ -3,17 +3,13 @@ package com.netDashboard.dashboard_activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.netDashboard.R
 import com.netDashboard.databinding.DashboardActivityBinding
 import com.netDashboard.tiles.Tile
 
-//<item name="android:windowNoTitle">true</item>
-//<item name="android:windowActionBar">false</item>
-//<item name="android:windowFullscreen">true</item>
-//<item name="android:windowTranslucentStatus">true</item>
-//<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
 
 class DashboardActivity : AppCompatActivity() {
     lateinit var b: DashboardActivityBinding
@@ -52,19 +48,17 @@ class DashboardActivity : AppCompatActivity() {
         })
 
         b.move.setOnClickListener {
+            dashboardAdapter.swapMode = !dashboardAdapter.swapMode
+
             if (dashboardAdapter.swapMode) {
-                dashboardAdapter.swapMode = false
-                b.ban.text = getString(R.string.dashboard)
-            } else {
-                dashboardAdapter.swapMode = true
                 b.ban.text = getString(R.string.swap_mode)
+            } else {
+                b.ban.text = getString(R.string.dashboard)
             }
 
-            for ((i, t) in dashboardAdapter.tiles.withIndex()) {
-                if(t.swapFlag) {
-                    dashboardAdapter.tiles[i].swapFlag = false
-                    break
-                }
+            for ((i, _) in dashboardAdapter.tiles.withIndex()) {
+                dashboardAdapter.tiles[i].swapMode(dashboardAdapter.swapMode)
+                dashboardAdapter.tiles[i].swapReady(false)
             }
         }
     }

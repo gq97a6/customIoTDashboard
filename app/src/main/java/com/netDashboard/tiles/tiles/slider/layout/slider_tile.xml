@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:padding="@dimen/tile_padding"
-    android:orientation="vertical">
+    android:elevation="10dp"
+    android:padding="@dimen/tile_padding">
 
     <ImageView
-        android:id="@+id/test2"
-        android:layout_height="match_parent"
+        android:id="@+id/swapReady"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/swap_ready"
+        android:backgroundTint="#FFFFFF"
+        android:elevation="10dp"
+        android:visibility="invisible"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/background"
         android:layout_width="match_parent"
-        android:background="#348DBD" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="#000000"
+        tools:ignore="ContentDescription" />
 
     <com.google.android.material.slider.Slider
+        android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
         android:stepSize="10.0"
-        android:value="20"
+        android:value="0"
         android:valueFrom="0.0"
         android:valueTo="100.0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="33dp"
 
-        app:tickColorActive="#1E6388"
-        app:trackColorActive="#32B3F8"
-        app:tickColorInactive="#357293"
-        app:trackColorInactive="#8CD2F8"
-        app:thumbColor="#5CBEF3"
-        />
+        app:thumbColor="#424242"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:tickColorActive="#373737"
+        app:tickColorInactive="#151515"
+
+        app:trackColorActive="#555555"
+        app:trackColorInactive="#ACACAC" />
+
+</FrameLayout>
