@@ -1,24 +1,40 @@
 package com.netDashboard
 
-import android.content.*
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.graphics.Color
 import android.os.*
-import android.view.View
-import android.widget.Toast
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.netDashboard.abyss.Abyss
 import com.netDashboard.dashboard_activity.DashboardActivity
 import com.netDashboard.databinding.MainActivityBinding
-import com.netDashboard.abyss.Abyss
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var b: MainActivityBinding
     private var abyss = AbyssHandler(this)
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//
-        //b = MainActivityBinding.inflate(layoutInflater)
-        //setContentView(b.root)
+
+        b = MainActivityBinding.inflate(layoutInflater)
+        setContentView(b.root)
+
+        Log.i("OUY", Color.parseColor("#FFFFFFFF").toString())
+
+        val con = this
+        Timer().schedule(500) {
+            Intent(con, DashboardActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
+        }
 //
         //b.bind.setOnClickListener() {
         //    abyss.bind()
@@ -52,30 +68,27 @@ class MainActivity : AppCompatActivity() {
         //finish()
     }
 
-    override fun onStart() {
-        super.onStart()
-        abyss.start()
-        abyss.bind()
-    }
+    //override fun onStart() {
+    //    super.onStart()
+    //    abyss.start()
+    //    abyss.bind()
+    //}
+//
+    //override fun onDestroy() {
+    //    abyss.unbound()
+    //    super.onDestroy()
+    //}
+//
+    //override fun onStop() {
+    //    abyss.unbound()
+    //    super.onStop()
+    //}
 
-    override fun onDestroy() {
-        abyss.unbound()
-        super.onDestroy()
-    }
-
-    override fun onStop() {
-        abyss.unbound()
-        super.onStop()
-    }
-
-    fun go(view: View) {
-
-    }
     inner class AbyssHandler(var context: Context) {
-        var isBounded:Boolean = false
+        var isBounded: Boolean = false
         lateinit var service: Abyss
 
-        private val connection = object:ServiceConnection {
+        private val connection = object : ServiceConnection {
 
             override fun onServiceConnected(className: ComponentName, IBinder: IBinder) {
                 val binder = IBinder as Abyss.AbyssBinder
@@ -90,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         fun start() {
             Intent(context, Abyss::class.java).also {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     startForegroundService(it)
                 } else {
                     startService(it)
@@ -116,9 +129,5 @@ class MainActivity : AppCompatActivity() {
                 isBounded = false
             }
         }
-    }
-
-    fun getContext(): Context {
-        return this
     }
 }

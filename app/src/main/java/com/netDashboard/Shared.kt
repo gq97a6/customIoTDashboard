@@ -14,6 +14,9 @@ fun createToast(context: Context, msg: String) {
     }
 }
 
+fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
+fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+
 fun getScreenWidth(): Int {
     return Resources.getSystem().displayMetrics.widthPixels
 }

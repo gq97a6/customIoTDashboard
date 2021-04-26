@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import androidx.core.content.res.ResourcesCompat.getColorStateList
 import androidx.core.graphics.ColorUtils
 import com.netDashboard.R
+import com.netDashboard.createToast
 import com.netDashboard.dashboard_activity.DashboardAdapter
 import com.netDashboard.tiles.Tile
 import java.util.*
@@ -29,37 +31,25 @@ class ButtonTile(name: String, color: Int, x: Int, y: Int) :
 
                 setThemeColor(color)
             }
-        }
-    }
 
-    override fun swapMode(isEnabled: Boolean) {
-        swapMode = isEnabled
-    }
+            holder.itemView.findViewById<Button>(R.id.button).setOnLongClickListener() {
+                if (swapMode) {
+                    createToast(context, "open settings! ${holder.adapterPosition}")
+                }
 
-    override fun swapReady(isReady: Boolean) {
-        swapReady = isReady
-
-        if (swapReady) {
-            holder?.itemView?.findViewById<ImageView>(R.id.swapReady)?.visibility = View.VISIBLE
-        } else {
-            holder?.itemView?.findViewById<ImageView>(R.id.swapReady)?.visibility = View.GONE
+                return@setOnLongClickListener true
+            }
         }
     }
 
     override fun setThemeColor(color: Int) {
         this.color = color
 
-        val textColor = if (ColorUtils.calculateLuminance(color) < 0.5) {
-            Color.parseColor("#FFFFFFFF")
-        } else {
-            Color.parseColor("#000000")
-        }
-
         holder?.itemView?.findViewById<Button>(R.id.button)?.backgroundTintList =
             ColorStateList.valueOf(
                 color
             )
 
-        holder?.itemView?.findViewById<Button>(R.id.button)?.setTextColor(textColor)
+        holder?.itemView?.findViewById<Button>(R.id.button)?.setTextColor(getContrastColor(color))
     }
 }

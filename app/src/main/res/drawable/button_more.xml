@@ -3,4 +3,3 @@
     android:color="?colorSecondary">
     <item android:drawable="@drawable/icon_more"/>
 </ripple>
-

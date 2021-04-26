@@ -71,7 +71,7 @@ class Abyss:Service() {
                 "Server service notification",
                 NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
-            description = "test"
+            description = "new_tile_activity"
         }
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

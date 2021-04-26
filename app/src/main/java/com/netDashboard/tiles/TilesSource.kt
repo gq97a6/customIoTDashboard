@@ -12,7 +12,7 @@ class TilesSource {
 
     private val initialTileList = listOf(
         ButtonTile("", color, 1, 1),
-        SliderTile("", color, 3, 1),
+        SliderTile("", color, 3, 2),
         ButtonTile("", color, 1, 1),
         ButtonTile("", color, 1, 1),
         ButtonTile("", color, 3, 1),
@@ -39,6 +39,26 @@ class TilesSource {
 
     fun getTileList(): LiveData<List<Tile>> {
         return tileLiveData
+    }
+
+    fun addTile(tile: Tile) {
+        val currentList = tileLiveData.value
+        if (currentList == null) {
+            tileLiveData.postValue(listOf(tile))
+        } else {
+            val updatedList = currentList.toMutableList()
+            updatedList.add(0, tile)
+            tileLiveData.postValue(updatedList)
+        }
+    }
+
+    fun removeTile() {
+        val currentList = tileLiveData.value
+        if (currentList != null) {
+            val updatedList = currentList.toMutableList()
+            updatedList.removeAt(0)
+            tileLiveData.postValue(updatedList)
+        }
     }
 
     companion object {
