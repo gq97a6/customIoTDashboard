@@ -2,12 +2,7 @@ package com.netDashboard.tiles.tiles.button
 
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.ImageView
-import androidx.core.content.res.ResourcesCompat.getColorStateList
-import androidx.core.graphics.ColorUtils
 import com.netDashboard.R
 import com.netDashboard.createToast
 import com.netDashboard.dashboard_activity.DashboardAdapter
@@ -25,7 +20,7 @@ class ButtonTile(name: String, color: Int, x: Int, y: Int) :
         holder.itemView.findViewById<Button>(R.id.button).setOnClickListener {
             holder.itemView.callOnClick()
 
-            if(!swapMode) {
+            if(!editMode()) {
                 val rnd = Random()
                 val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
 
@@ -33,7 +28,7 @@ class ButtonTile(name: String, color: Int, x: Int, y: Int) :
             }
 
             holder.itemView.findViewById<Button>(R.id.button).setOnLongClickListener() {
-                if (swapMode) {
+                if (editMode()) {
                     createToast(context, "open settings! ${holder.adapterPosition}")
                 }
 

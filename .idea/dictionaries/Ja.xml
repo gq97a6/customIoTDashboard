@@ -2,6 +2,7 @@
   <dictionary name="Ja">
     <words>
       <w>mqttd</w>
+      <w>snackbar</w>
       <w>tcpd</w>
       <w>udpd</w>
     </words>

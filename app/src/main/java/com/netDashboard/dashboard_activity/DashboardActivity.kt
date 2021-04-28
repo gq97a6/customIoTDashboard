@@ -1,14 +1,17 @@
 package com.netDashboard.dashboard_activity
 
-import android.animation.ObjectAnimator
+import android.R.id.message
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.netDashboard.R
+import com.netDashboard.createToast
 import com.netDashboard.databinding.DashboardActivityBinding
+import com.netDashboard.margins
 import com.netDashboard.tiles.Tile
 import com.netDashboard.toPx
 import new_tile_activity.NewTileActivity
@@ -48,65 +51,101 @@ class DashboardActivity : AppCompatActivity() {
         })
 
         b.edit.setOnClickListener {
-            dashboardAdapter.swapMode = !dashboardAdapter.swapMode
+            dashboardAdapter.swapMode = !(dashboardAdapter.swapMode || dashboardAdapter.removeMode)
+
+            dashboardAdapter.removeMode = false
 
             if (dashboardAdapter.swapMode) {
-                b.ban.text = getString(R.string.edit_mode)
+                b.ban.text = getString(R.string.swap_mode)
 
                 b.remove.visibility = View.VISIBLE
                 b.add.visibility = View.VISIBLE
-                b.indicator.visibility = View.VISIBLE
-
-                moveIndicator(0f)
-
                 b.set.setBackgroundResource(R.drawable.button_swap)
             } else {
                 b.ban.text = getString(R.string.dashboard)
 
                 b.remove.visibility = View.GONE
                 b.add.visibility = View.GONE
-                b.indicator.visibility = View.GONE
 
                 b.set.setBackgroundResource(R.drawable.button_more)
             }
 
             for ((i, _) in dashboardAdapter.tiles.withIndex()) {
-                dashboardAdapter.tiles[i].swapMode(dashboardAdapter.swapMode)
-                dashboardAdapter.tiles[i].swapReady(false)
+                dashboardAdapter.tiles[i].editMode(dashboardAdapter.swapMode)
+                dashboardAdapter.tiles[i].flag(false)
             }
         }
 
         b.set.setOnClickListener {
-            if (dashboardAdapter.swapMode) {
-                moveIndicator(0f)
+            if (dashboardAdapter.removeMode) {
+                dashboardAdapter.removeMode = false
+                dashboardAdapter.swapMode = true
+                b.ban.text = getString(R.string.swap_mode)
+
+                for ((i, _) in dashboardAdapter.tiles.withIndex()) {
+                    dashboardAdapter.tiles[i].editMode(true)
+                    dashboardAdapter.tiles[i].flag(false)
+                }
             }
         }
 
         b.remove.setOnClickListener {
-            if (dashboardAdapter.swapMode) {
-                moveIndicator(-60.toPx().toFloat())
+            if (dashboardAdapter.removeMode) {
+                var deleted = false
+                val tiles = dashboardAdapter.tiles.toMutableList()
+                for ((i, _) in dashboardAdapter.tiles.withIndex()) {
+
+                    if (dashboardAdapter.tiles[i].flag()) {
+                        tiles.removeAt(i)
+                        deleted = true
+                    }
+                }
+
+                if(!deleted) {
+                    createToast(this, "Mark tile, click again.", 1)
+                } else {
+                    val snackbar = Snackbar.make(b.root, "Are you sure? Wait to dismiss.", Snackbar.LENGTH_LONG).margins().setAction(
+                        "YES"
+                    ) {
+                        dashboardAdapter.tiles = tiles
+                        dashboardAdapter.notifyDataSetChanged()
+                    }
+
+                    val snackBarView = snackbar.view
+                    snackBarView.translationY = -20.toPx().toFloat()
+                    snackbar.show()
+                }
+            } else if (dashboardAdapter.swapMode) {
+                dashboardAdapter.swapMode = false
+                dashboardAdapter.removeMode = true
+                b.ban.text = getString(R.string.remove_mode)
+
+                for ((i, _) in dashboardAdapter.tiles.withIndex()) {
+                    dashboardAdapter.tiles[i].flag(false)
+                }
+
+                createToast(this, "Mark tile, click again.", 1)
             }
         }
 
         b.add.setOnClickListener {
-            if (dashboardAdapter.swapMode) {
-                //moveIndicator(-120.toPx().toFloat())
+            //moveIndicator(-120.toPx().toFloat())
 
-                Intent(this, NewTileActivity::class.java).also {
-                    startActivity(it)
-                }
+            Intent(this, NewTileActivity::class.java).also {
+                startActivity(it)
             }
         }
     }
 
-    private fun moveIndicator(distance: Float) {
-
-        ObjectAnimator.ofFloat(b.indicator, "translationX", distance)
-            .apply {
-                duration = 100
-                start()
-            }
-    }
+    //ObjectAnimator.ofFloat(b.indicator, "translationX", distance)
+    //.apply {
+    //    this.duration = duration
+    //    start()
+    //}
+    //
+    //Handler(Looper.getMainLooper()).postDelayed({
+    //    moveIndicator(0f, 300)
+    //}, 400)
 
     //Intent(this, NewTileActivity::class.java).also {
     //    startActivity(it)

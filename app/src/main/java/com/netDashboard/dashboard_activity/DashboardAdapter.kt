@@ -14,6 +14,8 @@ class DashboardAdapter(private val context: Context, private val spanCount: Int)
     ListAdapter<Tile, DashboardAdapter.TileViewHolder>(TileDiffCallback) {
 
     var swapMode = false
+    var removeMode = false
+
     lateinit var tiles: MutableList<Tile>
     lateinit var currentTile: Tile
 
@@ -22,9 +24,17 @@ class DashboardAdapter(private val context: Context, private val spanCount: Int)
         tiles = list!!
     }
 
+    override fun getCurrentList(): MutableList<Tile> {
+        return tiles
+    }
+
+    override fun getItemCount(): Int {
+        return tiles.size
+    }
+
     override fun getItemViewType(position: Int): Int {
         currentTile = tiles[position]
-        return tiles[position].getItemViewType(context, spanCount, swapMode) //Tile function
+        return tiles[position].getItemViewType(context, spanCount) //Tile function
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TileViewHolder {
@@ -37,23 +47,36 @@ class DashboardAdapter(private val context: Context, private val spanCount: Int)
         tiles[position].onBindViewHolder(holder, position) //Tile function
 
         holder.itemView.setOnClickListener {
-            if (swapMode) {
-                tiles[position].swapReady(!tiles[position].swapReady)
+            when {
+                swapMode -> {
+                    tiles[position].flag(!tiles[position].flag())
 
-                for ((i, t) in tiles.withIndex()) {
+                    for ((i, t) in tiles.withIndex()) {
 
-                    if (t.swapReady && tiles[position].id != t.id) {
-                        tiles[i].swapReady(false)
-                        tiles[position].swapReady(false)
+                        if (t.flag() && tiles[position].id != t.id) {
+                            tiles[i].flag(false)
+                            tiles[position].flag(false)
 
-                        Collections.swap(tiles, position, i)
+                            Collections.swap(tiles, position, i)
 
-                        notifyItemChanged(position)
-                        notifyItemChanged(i)
+                            notifyItemChanged(position)
+                            notifyItemChanged(i)
+                        }
                     }
                 }
-            } else {
-                createToast(context, position.toString())
+                removeMode -> {
+                    for ((i, t) in tiles.withIndex()) {
+
+                        if (t.flag() && tiles[position].id != t.id) {
+                            tiles[i].flag(false)
+                        }
+                    }
+
+                    tiles[position].flag(!tiles[position].flag(), 1)
+                }
+                else -> {
+                    createToast(context, "${position.toString()}:S")
+                }
             }
         }
     }

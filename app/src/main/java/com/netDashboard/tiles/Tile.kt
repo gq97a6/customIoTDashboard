@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.graphics.ColorUtils
-import androidx.recyclerview.widget.RecyclerView
 import com.netDashboard.R
 import com.netDashboard.createToast
 import com.netDashboard.dashboard_activity.DashboardAdapter
@@ -26,8 +25,8 @@ abstract class Tile(
 
     val id: Long?
 
-    var swapMode = false
-    var swapReady = false
+    private var editMode = false
+    private var flag = false
 
     var spanCount = 1
     lateinit var context: Context
@@ -37,10 +36,9 @@ abstract class Tile(
         id = Random().nextLong()
     }
 
-    fun getItemViewType(context: Context, spanCount: Int, swapMode: Boolean): Int {
+    fun getItemViewType(context: Context, spanCount: Int): Int {
         this.context = context
         this.spanCount = spanCount
-        this.swapMode = swapMode
 
         return layout
     }
@@ -60,12 +58,15 @@ abstract class Tile(
         view.layoutParams = params
 
         holder.itemView.setOnLongClickListener() {
-            if (swapMode) {
+            if (editMode) {
                 createToast(context, "open settings! ${holder.adapterPosition}")
             }
 
             return@setOnLongClickListener true
         }
+
+        editMode(editMode)
+        flag(flag)
     }
 
     fun areItemsTheSame(oldItem: Tile, newItem: Tile): Boolean {
@@ -85,21 +86,34 @@ abstract class Tile(
         }
     }
 
-    open fun swapMode(isEnabled: Boolean) {
-        swapMode = isEnabled
+    open fun editMode(isEnabled: Boolean) {
+        editMode = isEnabled
     }
 
-    open fun swapReady(isReady: Boolean) {
-        swapReady = isReady
+    fun editMode(): Boolean {
+        return editMode
+    }
 
-        val swapReadyMark = holder?.itemView?.findViewById<ImageView>(R.id.swapReady)
+    open fun flag(flag: Boolean, type: Int = 0) {
+        this.flag = flag
 
-        if (swapReady) {
-            swapReadyMark?.backgroundTintList = ColorStateList.valueOf(getContrastColor(color))
-            swapReadyMark?.visibility = View.VISIBLE
-        } else {
-            swapReadyMark?.visibility = View.GONE
+        val flagMark = holder?.itemView?.findViewById<ImageView>(R.id.swapReady)
+
+        when(type) {
+            0 -> flagMark?.setBackgroundResource(R.drawable.icon_swap)
+            1 -> flagMark?.setBackgroundResource(R.drawable.icon_remove)
         }
+
+        if (flag) {
+            flagMark?.backgroundTintList = ColorStateList.valueOf(getContrastColor(color))
+            flagMark?.visibility = View.VISIBLE
+        } else {
+            flagMark?.visibility = View.GONE
+        }
+    }
+
+    fun flag(): Boolean {
+        return flag
     }
 
     open fun setThemeColor(color: Int) {}

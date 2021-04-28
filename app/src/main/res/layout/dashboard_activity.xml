@@ -1,24 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/edit"
             style="@style/defaultButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
+            android:layout_width="64.8dp"
+            android:layout_height="49.2dp"
             android:background="@drawable/button_edit"
             android:backgroundTint="@color/white" />
 
@@ -30,23 +28,21 @@
             android:gravity="center"
             android:text="@string/dashboard"
             android:textColor="#000000"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/add"
             style="@style/defaultButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_width="52.8dp"
+            android:layout_height="49.2dp"
             android:background="@drawable/button_add"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/remove"
             style="@style/defaultButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_width="52.8dp"
+            android:layout_height="49.2dp"
             android:background="@drawable/button_remove"
             android:textColor="#FFFFFF"
             android:visibility="gone" />
@@ -54,23 +50,11 @@
         <Button
             android:id="@+id/set"
             style="@style/defaultButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="64.8dp"
+            android:layout_height="49.2dp"
             android:background="@drawable/button_more" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/indicator"
-        style="@style/defaultButton"
-        android:layout_width="45dp"
-        android:layout_height="3dp"
-        android:layout_gravity="right"
-        android:layout_marginRight="13dp"
-        android:background="@drawable/icon_indicator"
-        android:visibility="gone"
-        tools:ignore="RtlHardcoded" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
