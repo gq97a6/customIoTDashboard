@@ -21,12 +21,12 @@ import java.net.InetAddress
 import java.util.*
 
 
-class Abyss:Service() {
+class Abyss : Service() {
 
-    var udpd = udpd(this,4445)
+    var udpd = udpd(this, 4445)
 
     override fun onCreate() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel()
         }
 
@@ -51,7 +51,8 @@ class Abyss:Service() {
 
 
     private val binder = AbyssBinder()
-    inner class AbyssBinder:Binder() {
+
+    inner class AbyssBinder : Binder() {
         fun getService(): Abyss = this@Abyss
     }
 
@@ -67,20 +68,21 @@ class Abyss:Service() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
-                "foreground_service_id",
-                "Server service notification",
-                NotificationManager.IMPORTANCE_DEFAULT
+            "foreground_service_id",
+            "Server service notification",
+            NotificationManager.IMPORTANCE_DEFAULT
         ).apply {
-            description = "new_tile_activity"
+            description = "com/netDashboard/new_tile_activities"
         }
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
 }
 
-class udpd(private val context: Context, private val port: Int):Thread() {
-    private lateinit var socket:DatagramSocket
+class udpd(private val context: Context, private val port: Int) : Thread() {
+    private lateinit var socket: DatagramSocket
 
     init {
         try {
@@ -117,7 +119,7 @@ class udpd(private val context: Context, private val port: Int):Thread() {
         socket.close()
     }
 
-    private fun onData(data:String) {
+    private fun onData(data: String) {
         val notification = NotificationCompat.Builder(context, "foreground_service_id")
             .setAutoCancel(true)
             .setOngoing(false)
@@ -133,7 +135,7 @@ class udpd(private val context: Context, private val port: Int):Thread() {
         createToast(context, data)
     }
 
-    fun getData():String {
+    fun getData(): String {
         return data
     }
 
@@ -146,9 +148,9 @@ class udpd(private val context: Context, private val port: Int):Thread() {
             val address = InetAddress.getByName(adr)
             val packet = DatagramPacket(cmd.toByteArray(), cmd.toByteArray().size, address, port)
 
-            if(packet.port == this.port) {
+            if (packet.port == this.port) {
                 this.socket.send(packet)
-            }else {
+            } else {
                 val socket = DatagramSocket(port)
                 socket.send(packet)
                 socket.close()
@@ -164,9 +166,9 @@ class udpd(private val context: Context, private val port: Int):Thread() {
 }
 
 //class tcpd(private val port: Int):Thread() {
-    //TODO
+//TODO
 //}
 
 //class mqttd(private val port: Int):Thread() {
-    //TODO
+//TODO
 //}

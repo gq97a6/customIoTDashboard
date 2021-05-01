@@ -6,11 +6,14 @@
     android:gravity="center"
     tools:context="com.netDashboard.new_tile_activity.NewTileActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:padding="@dimen/tile_padding" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nothing to see here, go back."
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:layout_marginBottom="40dp"
+        android:textColor="#A8A8A8" />
 
 </LinearLayout>

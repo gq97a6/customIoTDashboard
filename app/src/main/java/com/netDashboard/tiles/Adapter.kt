@@ -1,4 +1,4 @@
-package com.netDashboard.dashboard_activity
+package com.netDashboard.tiles
 
 import android.content.Context
 import android.view.View
@@ -7,11 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.netDashboard.createToast
-import com.netDashboard.tiles.Tile
 import java.util.*
 
-class DashboardAdapter(private val context: Context, private val spanCount: Int) :
-    ListAdapter<Tile, DashboardAdapter.TileViewHolder>(TileDiffCallback) {
+class Adapter(private val context: Context, private val spanCount: Int) :
+    ListAdapter<Tile, Adapter.TileViewHolder>(TileDiffCallback) {
 
     var swapMode = false
     var removeMode = false
@@ -21,7 +20,7 @@ class DashboardAdapter(private val context: Context, private val spanCount: Int)
 
     override fun submitList(list: MutableList<Tile>?) {
         super.submitList(list)
-        tiles = list!!
+        tiles = list!!.toMutableList() //Do not remove .{...}
     }
 
     override fun getCurrentList(): MutableList<Tile> {
@@ -75,7 +74,7 @@ class DashboardAdapter(private val context: Context, private val spanCount: Int)
                     tiles[position].flag(!tiles[position].flag(), 1)
                 }
                 else -> {
-                    createToast(context, "${position.toString()}:S")
+                    createToast(context, "$position:S")
                 }
             }
         }

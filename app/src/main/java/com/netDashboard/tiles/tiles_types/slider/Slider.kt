@@ -1,14 +1,14 @@
-package com.netDashboard.tiles.tiles.slider
+package com.netDashboard.tiles.tiles_types.slider
 
 import com.google.android.material.slider.Slider
 import com.netDashboard.R
-import com.netDashboard.dashboard_activity.DashboardAdapter
+import com.netDashboard.tiles.Adapter
 import com.netDashboard.tiles.Tile
 
 class SliderTile(name: String, color: Int, x: Int, y: Int) :
     Tile(name, color, R.layout.slider_tile, x, y) {
 
-    override fun onBindViewHolder(holder: DashboardAdapter.TileViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: Adapter.TileViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
 
         holder.itemView.findViewById<Slider>(R.id.slider).isEnabled = !editMode()

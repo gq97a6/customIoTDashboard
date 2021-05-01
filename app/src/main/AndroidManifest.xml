@@ -12,7 +12,6 @@
         android:roundIcon="@drawable/icon_main"
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
-        <activity android:name="new_tile_activity.NewTileActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".dashboard_activity.DashboardActivity" />
+        <activity android:name="com.netDashboard.new_tile_activity.NewTileActivity" />
+        <activity android:name="com.netDashboard.config_new_tile_activity.ConfigNewTileActivity" />
 
         <service android:name=".abyss.Abyss" />
     </application>

@@ -2,15 +2,13 @@ package com.netDashboard.tiles
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.graphics.ColorUtils
 import com.netDashboard.R
 import com.netDashboard.createToast
-import com.netDashboard.dashboard_activity.DashboardAdapter
+import com.netDashboard.getContrastColor
 import com.netDashboard.getScreenWidth
 import java.util.*
 
@@ -30,7 +28,7 @@ abstract class Tile(
 
     var spanCount = 1
     lateinit var context: Context
-    var holder: DashboardAdapter.TileViewHolder? = null
+    var holder: Adapter.TileViewHolder? = null
 
     init {
         id = Random().nextLong()
@@ -43,13 +41,13 @@ abstract class Tile(
         return layout
     }
 
-    open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashboardAdapter.TileViewHolder {
+    open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapter.TileViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
 
-        return DashboardAdapter.TileViewHolder(view)
+        return Adapter.TileViewHolder(view)
     }
 
-    open fun onBindViewHolder(holder: DashboardAdapter.TileViewHolder, position: Int) {
+    open fun onBindViewHolder(holder: Adapter.TileViewHolder, position: Int) {
         this.holder = holder
 
         val view = holder.itemView
@@ -57,7 +55,7 @@ abstract class Tile(
         params.height = ((getScreenWidth() - view.paddingLeft * 2) / spanCount) * y
         view.layoutParams = params
 
-        holder.itemView.setOnLongClickListener() {
+        holder.itemView.setOnLongClickListener {
             if (editMode) {
                 createToast(context, "open settings! ${holder.adapterPosition}")
             }
@@ -77,15 +75,6 @@ abstract class Tile(
         return oldItem.id == newItem.id
     }
 
-    fun getContrastColor(themeColor: Int): Int {
-
-        return if (ColorUtils.calculateLuminance(themeColor) < 0.5) {
-            Color.parseColor("#FFFFFFFF")
-        } else {
-            -16777216
-        }
-    }
-
     open fun editMode(isEnabled: Boolean) {
         editMode = isEnabled
     }
@@ -99,7 +88,7 @@ abstract class Tile(
 
         val flagMark = holder?.itemView?.findViewById<ImageView>(R.id.swapReady)
 
-        when(type) {
+        when (type) {
             0 -> flagMark?.setBackgroundResource(R.drawable.icon_swap)
             1 -> flagMark?.setBackgroundResource(R.drawable.icon_remove)
         }

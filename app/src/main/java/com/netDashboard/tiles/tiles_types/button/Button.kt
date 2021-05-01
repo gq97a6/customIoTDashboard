@@ -1,33 +1,32 @@
-package com.netDashboard.tiles.tiles.button
+package com.netDashboard.tiles.tiles_types.button
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.widget.Button
 import com.netDashboard.R
 import com.netDashboard.createToast
-import com.netDashboard.dashboard_activity.DashboardAdapter
+import com.netDashboard.getContrastColor
+import com.netDashboard.getRandomColor
+import com.netDashboard.tiles.Adapter
 import com.netDashboard.tiles.Tile
 import java.util.*
 
 class ButtonTile(name: String, color: Int, x: Int, y: Int) :
     Tile(name, color, R.layout.button_tile, x, y) {
 
-    override fun onBindViewHolder(holder: DashboardAdapter.TileViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: Adapter.TileViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
 
-        setThemeColor(color)
+        setThemeColor(getRandomColor())
+        //setThemeColor(color)
 
         holder.itemView.findViewById<Button>(R.id.button).setOnClickListener {
             holder.itemView.callOnClick()
 
-            if(!editMode()) {
-                val rnd = Random()
-                val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-
-                setThemeColor(color)
+            if (!editMode()) {
+                setThemeColor(getRandomColor())
             }
 
-            holder.itemView.findViewById<Button>(R.id.button).setOnLongClickListener() {
+            holder.itemView.findViewById<Button>(R.id.button).setOnLongClickListener {
                 if (editMode()) {
                     createToast(context, "open settings! ${holder.adapterPosition}")
                 }
