@@ -1,26 +1,35 @@
 package com.netDashboard.dashboard_activity
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.netDashboard.R
 import com.netDashboard.createToast
 import com.netDashboard.databinding.DashboardActivityBinding
 import com.netDashboard.margins
 import com.netDashboard.new_tile_activity.NewTileActivity
-import com.netDashboard.tiles.Adapter
 import com.netDashboard.tiles.Tile
+import com.netDashboard.tiles.TilesAdapter
+import com.netDashboard.tiles.TilesSource
+import com.netDashboard.tiles.tiles_types.button.ButtonTile
+import com.netDashboard.tiles.tiles_types.slider.SliderTile
 import com.netDashboard.toPx
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.InputStreamReader
+import java.io.Serializable
 
 class DashboardActivity : AppCompatActivity() {
     lateinit var b: DashboardActivityBinding
-    lateinit var recyclerView: RecyclerView
-    lateinit var dashboardAdapter: Adapter
+    lateinit var dashboardTilesAdapter: TilesAdapter
 
     private val dashboardViewModel by viewModels<DashboardViewModel> {
         DashboardViewModelFactory(this)
@@ -35,11 +44,12 @@ class DashboardActivity : AppCompatActivity() {
         setupRecyclerView()
 
         b.edit.setOnClickListener {
-            dashboardAdapter.swapMode = !(dashboardAdapter.swapMode || dashboardAdapter.removeMode)
+            dashboardTilesAdapter.swapMode =
+                !(dashboardTilesAdapter.swapMode || dashboardTilesAdapter.removeMode)
 
-            dashboardAdapter.removeMode = false
+            dashboardTilesAdapter.removeMode = false
 
-            if (dashboardAdapter.swapMode) {
+            if (dashboardTilesAdapter.swapMode) {
                 b.ban.text = getString(R.string.swap_mode)
 
                 b.remove.visibility = View.VISIBLE
@@ -52,34 +62,49 @@ class DashboardActivity : AppCompatActivity() {
                 b.add.visibility = View.GONE
 
                 b.set.setBackgroundResource(R.drawable.button_more)
+
+                val saveMe: List<Tile> = dashboardTilesAdapter.tiles.toList()
+
+                val color = Color.parseColor("#00000000")
+                val tileList = listOf(
+                    ButtonTile("", color, 3, 1),
+                    SliderTile("", color, 3, 1)
+                )
+
+                //TODO save list
+                //TilesSource().saveExample(tileList, filesDir.canonicalPath + "/tileList") //works
+                //TilesSource().saveExample(saveMe, filesDir.canonicalPath + "/tileList") //java.io.NotSerializableException
             }
 
-            for ((i, _) in dashboardAdapter.tiles.withIndex()) {
-                dashboardAdapter.tiles[i].editMode(dashboardAdapter.swapMode)
-                dashboardAdapter.tiles[i].flag(false)
+            for ((i, _) in dashboardTilesAdapter.tiles.withIndex()) {
+                dashboardTilesAdapter.tiles[i].editMode(dashboardTilesAdapter.swapMode)
+                dashboardTilesAdapter.tiles[i].flag(false)
             }
         }
 
         b.set.setOnClickListener {
-            if (dashboardAdapter.removeMode) {
-                dashboardAdapter.removeMode = false
-                dashboardAdapter.swapMode = true
+            if (dashboardTilesAdapter.removeMode) {
+                dashboardTilesAdapter.removeMode = false
+                dashboardTilesAdapter.swapMode = true
                 b.ban.text = getString(R.string.swap_mode)
 
-                for ((i, _) in dashboardAdapter.tiles.withIndex()) {
-                    dashboardAdapter.tiles[i].editMode(true)
-                    dashboardAdapter.tiles[i].flag(false)
+                for ((i, _) in dashboardTilesAdapter.tiles.withIndex()) {
+                    dashboardTilesAdapter.tiles[i].editMode(true)
+                    dashboardTilesAdapter.tiles[i].flag(false)
                 }
+            }
+            else if(!dashboardTilesAdapter.swapMode) {
+                createToast(this, "RESTORE")
             }
         }
 
         b.remove.setOnClickListener {
-            if (dashboardAdapter.removeMode) {
+            if (dashboardTilesAdapter.removeMode) {
                 var toDelete = false
 
-                for ((i, _) in dashboardAdapter.tiles.withIndex()) {
+                for ((i, _) in dashboardTilesAdapter.tiles.withIndex()) {
 
-                    if (dashboardAdapter.tiles[i].flag()) {
+                    if (dashboardTilesAdapter.tiles[i].flag()) {
                         toDelete = true
                         break
                     }
@@ -92,15 +117,19 @@ class DashboardActivity : AppCompatActivity() {
                     val snackbar = Snackbar.make(
                         b.root,
                         "Are you sure? Wait to dismiss.",
-                        Snackbar.LENGTH_LONG).margins().setAction("YES") {
+                        Snackbar.LENGTH_LONG
+                    ).margins().setAction("YES") {
 
-                        for ((i, _) in dashboardAdapter.tiles.withIndex()) { //TODO
+                        for ((i, _) in dashboardTilesAdapter.tiles.withIndex()) {
 
-                            if (dashboardAdapter.tiles[i].flag()) {
-                                dashboardAdapter.tiles.removeAt(i)
+                            if (dashboardTilesAdapter.tiles[i].flag()) {
+                                dashboardTilesAdapter.tiles.removeAt(i)
 
-                                dashboardAdapter.notifyItemRemoved(i)
-                                dashboardAdapter.notifyItemRangeChanged(i, dashboardAdapter.itemCount-i)
+                                dashboardTilesAdapter.notifyItemRemoved(i)
+                                dashboardTilesAdapter.notifyItemRangeChanged(
+                                    i,
+                                    dashboardTilesAdapter.itemCount - i
+                                )
                                 break
                             }
                         }
@@ -110,13 +139,13 @@ class DashboardActivity : AppCompatActivity() {
                     snackBarView.translationY = -20.toPx().toFloat()
                     snackbar.show()
                 }
-            } else if (dashboardAdapter.swapMode) {
-                dashboardAdapter.swapMode = false
-                dashboardAdapter.removeMode = true
+            } else if (dashboardTilesAdapter.swapMode) {
+                dashboardTilesAdapter.swapMode = false
+                dashboardTilesAdapter.removeMode = true
                 b.ban.text = getString(R.string.remove_mode)
 
-                for ((i, _) in dashboardAdapter.tiles.withIndex()) {
-                    dashboardAdapter.tiles[i].flag(false)
+                for ((i, _) in dashboardTilesAdapter.tiles.withIndex()) {
+                    dashboardTilesAdapter.tiles[i].flag(false)
                 }
 
                 createToast(this, "Mark tile, click again.")
@@ -130,50 +159,39 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        //TODO save list
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        //TODO save list
+        super.onDestroy()
+    }
+
     private fun setupRecyclerView() {
         val spanCount = 3
-        dashboardAdapter = Adapter(this, spanCount)
-
-        recyclerView = b.recyclerView
-        recyclerView.adapter = dashboardAdapter
+        dashboardTilesAdapter = TilesAdapter(this, spanCount)
+        b.recyclerView.adapter = dashboardTilesAdapter
 
         val layoutManager = GridLayoutManager(this, spanCount)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return dashboardAdapter.tiles[position].x
+                return dashboardTilesAdapter.tiles[position].x
             }
         }
 
-        recyclerView.layoutManager = layoutManager
-        dashboardAdapter.submitList(dashboardViewModel.tilesData as MutableList<Tile>)
+        b.recyclerView.layoutManager = layoutManager
+        dashboardTilesAdapter.submitList(dashboardViewModel.tilesData as MutableList<Tile>)
     }
-
-    //tilesListViewModel.tilesLiveData.observe(this, {
-    //    it?.let {
-    //        dashboardAdapter.submitList(it as MutableList<Tile>)
-    //    }
-    //})
 
     //ObjectAnimator.ofFloat(b.indicator, "translationX", distance)
     //.apply {
     //    this.duration = duration
     //    start()
     //}
-    //
+
     //Handler(Looper.getMainLooper()).postDelayed({
     //    moveIndicator(0f, 300)
     //}, 400)
-
-    //Intent(this, NewTileActivity::class.java).also {
-    //    startActivity(it)
-    //}
-
-    //tilesListViewModel.dataSource.removeTile()
-
-    //private fun go(view: View) {
-    //    Intent(this, MainActivity::class.java).also {
-    //        startActivity(it)
-    //        finish()
-    //    }
-    //}
 }

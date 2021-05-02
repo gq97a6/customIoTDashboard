@@ -1,23 +1,23 @@
 package com.netDashboard.tiles.tiles_types.button
 
 import android.content.res.ColorStateList
+import android.view.ViewGroup
 import android.widget.Button
 import com.netDashboard.R
 import com.netDashboard.createToast
 import com.netDashboard.getContrastColor
 import com.netDashboard.getRandomColor
-import com.netDashboard.tiles.Adapter
+import com.netDashboard.tiles.TilesAdapter
 import com.netDashboard.tiles.Tile
 import java.util.*
 
 class ButtonTile(name: String, color: Int, x: Int, y: Int) :
     Tile(name, color, R.layout.button_tile, x, y) {
 
-    override fun onBindViewHolder(holder: Adapter.TileViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TilesAdapter.TileViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
 
-        setThemeColor(getRandomColor())
-        //setThemeColor(color)
+        setThemeColor(color)
 
         holder.itemView.findViewById<Button>(R.id.button).setOnClickListener {
             holder.itemView.callOnClick()

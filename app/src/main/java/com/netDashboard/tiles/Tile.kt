@@ -11,7 +11,7 @@ import com.netDashboard.createToast
 import com.netDashboard.getContrastColor
 import com.netDashboard.getScreenWidth
 import java.util.*
-
+import java.io.Serializable
 
 abstract class Tile(
     var name: String,
@@ -19,7 +19,7 @@ abstract class Tile(
     var layout: Int,
     var x: Int,
     var y: Int
-) {
+): Serializable {
 
     val id: Long?
 
@@ -28,7 +28,7 @@ abstract class Tile(
 
     var spanCount = 1
     lateinit var context: Context
-    var holder: Adapter.TileViewHolder? = null
+    var holder: TilesAdapter.TileViewHolder? = null
 
     init {
         id = Random().nextLong()
@@ -41,13 +41,13 @@ abstract class Tile(
         return layout
     }
 
-    open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapter.TileViewHolder {
+    open fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TilesAdapter.TileViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
 
-        return Adapter.TileViewHolder(view)
+        return TilesAdapter.TileViewHolder(view)
     }
 
-    open fun onBindViewHolder(holder: Adapter.TileViewHolder, position: Int) {
+    open fun onBindViewHolder(holder: TilesAdapter.TileViewHolder, position: Int) {
         this.holder = holder
 
         val view = holder.itemView

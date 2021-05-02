@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity() {
         b = MainActivityBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        Log.i("OUY", Color.parseColor("#FFFFFFFF").toString())
-
         val con = this
         Timer().schedule(500) {
             Intent(con, DashboardActivity::class.java).also {
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
-//
+
         //b.bind.setOnClickListener() {
         //    abyss.bind()
         //}

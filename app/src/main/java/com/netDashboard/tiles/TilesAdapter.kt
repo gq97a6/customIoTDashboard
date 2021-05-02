@@ -3,20 +3,40 @@ package com.netDashboard.tiles
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.netDashboard.createToast
 import java.util.*
 
-class Adapter(private val context: Context, private val spanCount: Int) :
-    ListAdapter<Tile, Adapter.TileViewHolder>(TileDiffCallback) {
+class TilesAdapter(
+    private val context: Context,
+    private val spanCount: Int,
+    mode: String = ""
+) : ListAdapter<Tile, TilesAdapter.TileViewHolder>(TileDiffCallback) {
 
     var swapMode = false
     var removeMode = false
+    var addMode = false
 
     lateinit var tiles: MutableList<Tile>
     lateinit var currentTile: Tile
+
+    private val tileOnClick = MutableLiveData(-1)
+
+    fun getTileOnClickLiveData(): LiveData<Int> {
+        return tileOnClick
+    }
+
+    init {
+        when (mode) {
+            "swap" -> swapMode = true
+            "remove" -> removeMode = true
+            "add" -> addMode = true
+        }
+    }
 
     override fun submitList(list: MutableList<Tile>?) {
         super.submitList(list)
@@ -72,6 +92,9 @@ class Adapter(private val context: Context, private val spanCount: Int) :
                     }
 
                     tiles[position].flag(!tiles[position].flag(), 1)
+                }
+                addMode -> {
+                    tileOnClick.postValue(position)
                 }
                 else -> {
                     createToast(context, "$position:S")
