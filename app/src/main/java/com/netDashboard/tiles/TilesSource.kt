@@ -8,58 +8,30 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
+import java.lang.Exception
 
 
 class TilesSource {
     val color = Color.parseColor("#00000000")
 
     private val tileList = listOf(
-        ButtonTile("", color, 3, 1),
-        SliderTile("", color, 3, 1)
+        ButtonTile("button", color, 3, 1),
+        SliderTile("slider", color, 3, 1)
     )
-
-    private val initialTileList = listOf(
-        ButtonTile("", getRandomColor(), 1, 1),
-        SliderTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 3, 2),
-        ButtonTile("", getRandomColor(), 2, 1),
-        ButtonTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 1, 1),
-        SliderTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 3, 1),
-        SliderTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 2, 1),
-        SliderTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 1, 1),
-        SliderTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 2, 1),
-        ButtonTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 1, 1),
-        SliderTile("", getRandomColor(), 2, 1),
-        ButtonTile("", getRandomColor(), 2, 1),
-        ButtonTile("", getRandomColor(), 3, 1),
-        SliderTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 2, 1),
-        ButtonTile("", getRandomColor(), 1, 1),
-        ButtonTile("", getRandomColor(), 1, 1)
-    )
-
-    fun getTiles(): List<Tile> {
-        return initialTileList
-    }
 
     fun getTileList(): List<Tile> {
-        val tileList = this.tileList
-
-        //Enable edit mode
-        for ((i, _) in tileList.withIndex()) {
-            tileList[i].editMode(true)
-        }
-
-        return tileList
+        return this.tileList
     }
 
-    fun saveExample(list: List<Tile>, name: String) {
+    fun saveList(list: List<Tile>, name: String) {
+        for ((i, _) in list.withIndex()) {
+            list[i].context = null
+            list[i].holder = null
+
+            list[i].editMode(false)
+            list[i].flag(false)
+        }
+
         val file = FileOutputStream(name)
 
         val outStream = ObjectOutputStream(file)
@@ -70,16 +42,20 @@ class TilesSource {
         file.close()
     }
 
-    fun getExample(name: String): List<Tile>? {
-        val file = FileInputStream(name)
-        val inStream = ObjectInputStream(file)
+    fun getList(name: String): List<Tile>? {
+        return try{
+            val file = FileInputStream(name)
+            val inStream = ObjectInputStream(file)
 
-        val list = inStream.readObject() as List<*>
+            val list = inStream.readObject() as List<*>
 
-        inStream.close()
-        file.close()
+            inStream.close()
+            file.close()
 
-        return list.filterIsInstance<Tile>().takeIf { it.size == list.size }
+            list.filterIsInstance<Tile>().takeIf { it.size == list.size }
+        } catch (e: Exception) {
+            null
+        }
     }
 
     //private val tileLiveData = MutableLiveData(initialTileList)

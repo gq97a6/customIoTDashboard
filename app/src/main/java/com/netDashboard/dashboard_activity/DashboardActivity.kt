@@ -1,10 +1,7 @@
 package com.netDashboard.dashboard_activity
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,14 +15,7 @@ import com.netDashboard.new_tile_activity.NewTileActivity
 import com.netDashboard.tiles.Tile
 import com.netDashboard.tiles.TilesAdapter
 import com.netDashboard.tiles.TilesSource
-import com.netDashboard.tiles.tiles_types.button.ButtonTile
-import com.netDashboard.tiles.tiles_types.slider.SliderTile
 import com.netDashboard.toPx
-import java.io.BufferedReader
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.InputStreamReader
-import java.io.Serializable
 
 class DashboardActivity : AppCompatActivity() {
     lateinit var b: DashboardActivityBinding
@@ -63,23 +53,16 @@ class DashboardActivity : AppCompatActivity() {
 
                 b.set.setBackgroundResource(R.drawable.button_more)
 
-                val saveMe: List<Tile> = dashboardTilesAdapter.tiles.toList()
-
-                val color = Color.parseColor("#00000000")
-                val tileList = listOf(
-                    ButtonTile("", color, 3, 1),
-                    SliderTile("", color, 3, 1)
-                )
-
-                //TODO save list
-                //TilesSource().saveExample(tileList, filesDir.canonicalPath + "/tileList") //works
-                //TilesSource().saveExample(saveMe, filesDir.canonicalPath + "/tileList") //java.io.NotSerializableException
+                val saveMe = dashboardTilesAdapter.tiles.toList()
+                TilesSource().saveList(saveMe, filesDir.canonicalPath + "/tileList")
             }
 
             for ((i, _) in dashboardTilesAdapter.tiles.withIndex()) {
                 dashboardTilesAdapter.tiles[i].editMode(dashboardTilesAdapter.swapMode)
                 dashboardTilesAdapter.tiles[i].flag(false)
             }
+
+            dashboardTilesAdapter.notifyDataSetChanged()
         }
 
         b.set.setOnClickListener {
@@ -160,13 +143,10 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        //TODO save list
-        super.onPause()
-    }
+        val saveMe = dashboardTilesAdapter.tiles.toList()
+        TilesSource().saveList(saveMe, filesDir.canonicalPath + "/tileList")
 
-    override fun onDestroy() {
-        //TODO save list
-        super.onDestroy()
+        super.onPause()
     }
 
     private fun setupRecyclerView() {
@@ -177,12 +157,17 @@ class DashboardActivity : AppCompatActivity() {
         val layoutManager = GridLayoutManager(this, spanCount)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return dashboardTilesAdapter.tiles[position].x
+                return dashboardTilesAdapter.tiles[position].width
             }
         }
 
         b.recyclerView.layoutManager = layoutManager
-        dashboardTilesAdapter.submitList(dashboardViewModel.tilesData as MutableList<Tile>)
+
+        if(TilesSource().getList(filesDir.canonicalPath + "/tileList") != null) {
+            dashboardTilesAdapter.submitList(TilesSource().getList(filesDir.canonicalPath + "/tileList") as MutableList<Tile>)
+        } else {
+            dashboardTilesAdapter.submitList(mutableListOf())
+        }
     }
 
     //ObjectAnimator.ofFloat(b.indicator, "translationX", distance)

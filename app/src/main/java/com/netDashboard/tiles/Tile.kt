@@ -16,9 +16,10 @@ import java.io.Serializable
 abstract class Tile(
     var name: String,
     var color: Int,
-    var layout: Int,
-    var x: Int,
-    var y: Int
+    private var layout: Int,
+    var configLayout: Int,
+    var width: Int,
+    var height: Int
 ): Serializable {
 
     val id: Long?
@@ -27,7 +28,7 @@ abstract class Tile(
     private var flag = false
 
     var spanCount = 1
-    lateinit var context: Context
+    var context: Context? = null
     var holder: TilesAdapter.TileViewHolder? = null
 
     init {
@@ -52,12 +53,12 @@ abstract class Tile(
 
         val view = holder.itemView
         val params = view.layoutParams
-        params.height = ((getScreenWidth() - view.paddingLeft * 2) / spanCount) * y
+        params.height = ((getScreenWidth() - view.paddingLeft * 2) / spanCount) * height
         view.layoutParams = params
 
         holder.itemView.setOnLongClickListener {
             if (editMode) {
-                createToast(context, "open settings! ${holder.adapterPosition}")
+                createToast(context!!, "open settings! ${holder.adapterPosition}")
             }
 
             return@setOnLongClickListener true

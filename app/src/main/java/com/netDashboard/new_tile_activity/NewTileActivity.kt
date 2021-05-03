@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.netDashboard.createToast
-import com.netDashboard.dashboard_activity.DashboardActivity
+import com.netDashboard.config_new_tile_activity.ConfigNewTileActivity
 import com.netDashboard.databinding.NewTileActivityBinding
 import com.netDashboard.tiles.TilesAdapter
 import com.netDashboard.tiles.Tile
@@ -30,10 +28,8 @@ class NewTileActivity : AppCompatActivity() {
 
         newTileTilesAdapter.getTileOnClickLiveData().observe(this, { tileId ->
             if(tileId >= 0) {
-                createToast(this, "Tile added: $tileId")
-
-                Intent(this, DashboardActivity::class.java).also {
-                    finish()
+                Intent(this, ConfigNewTileActivity::class.java).also {
+                    it.putExtra("tileId", tileId)
                     startActivity(it)
                 }
             }
@@ -48,11 +44,17 @@ class NewTileActivity : AppCompatActivity() {
         val layoutManager = GridLayoutManager(this, spanCount)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return newTileTilesAdapter.tiles[position].x
+                return newTileTilesAdapter.tiles[position].width
             }
         }
 
+        //Enable edit mode
+        val list = tilesListViewModel.tilesData
+        for ((i, _) in list.withIndex()) {
+            list[i].editMode(true)
+        }
+
         b.recyclerView.layoutManager = layoutManager
-        newTileTilesAdapter.submitList(tilesListViewModel.tilesData as MutableList<Tile>)
+        newTileTilesAdapter.submitList(list as MutableList<Tile>)
     }
 }

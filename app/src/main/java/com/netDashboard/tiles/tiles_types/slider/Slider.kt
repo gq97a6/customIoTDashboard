@@ -6,7 +6,7 @@ import com.netDashboard.tiles.TilesAdapter
 import com.netDashboard.tiles.Tile
 
 class SliderTile(name: String, color: Int, x: Int, y: Int) :
-    Tile(name, color, R.layout.slider_tile, x, y) {
+    Tile(name, color, R.layout.slider_tile, R.layout.button_config, x, y) {
 
     override fun onBindViewHolder(holder: TilesAdapter.TileViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)

@@ -4,5 +4,4 @@ import androidx.lifecycle.ViewModel
 import com.netDashboard.tiles.TilesSource
 
 class DashboardViewModel : ViewModel() {
-    val tilesData = TilesSource().getTiles()
 }
